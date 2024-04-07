@@ -6,7 +6,11 @@
     <title>운세보는 우니 ♥</title>
   </head>
   <body>
-    <button onclick="sendFortuneRequest()">요청하기!</button>
+    <button
+      onclick="sendFortuneRequest().then((data) => console.log(data)).catch((e) => console.log(e));"
+    >
+      요청하기!
+    </button>
     <script>
       // JS가 들어갈 자리
       // ChatGPT_ 자바스크립트 fetch를 이용해서 localhost:3000/fortuneTell 이 주소로 post요청을 보내고 json 응답을 await으로 받아오는 함수를 구현해줘
@@ -32,16 +36,16 @@
         }
       }
 
-      // fetchFortune 함수 호출
-      fetchFortune()
-        .then((data) => {
-          console.log("Fortune:", data);
-          // 여기에서 반환된 데이터를 사용할 수 있습니다.
-        })
-        .catch((error) => {
-          // 오류가 발생한 경우 여기에서 처리할 수 있습니다.
-          console.log("Error:", error);
-        });
+      // sendFortuneRequest 함수 호출
+      // sendFortuneRequest()
+      //   .then((data) => {
+      //     console.log("Fortune:", data);
+      //     // 여기에서 반환된 데이터를 사용할 수 있습니다.
+      //   })
+      //   .catch((error) => {
+      //     // 오류가 발생한 경우 여기에서 처리할 수 있습니다.
+      //     console.log("Error:", error);
+      //   });
     </script>
   </body>
 </html>
