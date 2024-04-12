@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>채팅 운세</title>
+    <style>
+      /* 채팅 UI 스타일 */
+      .chat-container {
+        width: 300px;
+        height: 400px;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+      .chat-message {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container" id="chat-container">
+      <!-- 채팅 메시지가 표시될 영역 -->
+    </div>
+    <textarea
+      id="message-input"
+      rows="3"
+      cols="30"
+      placeholder="메시지를 입력하세요"
+    ></textarea>
+    <button onclick="sendMessage()">전송</button>
+    <button onclick="requestFortune()">운세 요청</button>
+
+    <script>
+      // 운세 요청 함수
+      async function requestFortune() {
+        try {
+          const response = await fetch("http://localhost:3000/fortuneTell", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name: "사용자" }),
+          });
+
+          if (!response.ok) {
+            throw new Error("운세 요청 실패");
+          }
+
+          const data = await response.json();
+          displayMessage("🔮 운세: " + data.fortune);
+        } catch (error) {
+          console.error("운세 요청 오류:", error);
+        }
+      }
+
+      // 메시지 전송 함수
+      function sendMessage() {
+        const messageInput = document.getElementById("message-input");
+        const message = messageInput.value.trim();
+        if (message !== "") {
+          displayMessage("사용자: " + message);
+          messageInput.value = "";
+        }
+      }
+
+      // 채팅 메시지를 화면에 표시하는 함수
+      function displayMessage(message) {
+        const chatContainer = document.getElementById("chat-container");
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("chat-message");
+        messageElement.textContent = message;
+        chatContainer.appendChild(messageElement);
+        // 스크롤을 맨 아래로 이동
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+    </script>
+  </body>
+</html>
