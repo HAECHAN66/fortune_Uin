@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>운세보는 우니 ♥</title>
+    <link rel="stylesheet" href="stely.css" />
+  </head>
+  <body>
+    <div id="Uni-chat">
+      <header class="clearfix">
+        <a href="#" class="chat-close">x</a>
+
+        <h4>운세 봐주는 우니!</h4>
+
+      </header>
+
+      <div class="chat">
+        <div class="chat-history">
+          <div class="chat-message clearfix">
+			안녕하세용~ 운세를 확인하시겠어용?☆
+            </div>
+			<div class="chat-bubble bot-bubble user-bubble" id="sendFortuneRequest">
+            <!-- end chat-message-content -->
+			</div>
+			<input type="text" class="chat-input" id="messageInput" placeholder="메시지를 입력하세요.">
+			<button class="send-button" onclick="sendFortuneRequest()">전송!</button>
+          </div>
+          <!-- end chat-message -->
+
+		  <script src="index.js">
+		  
+		  async function sendFortuneRequest() {
+			const messageInput = document.getElementById('messageInput');
+			const message = messageInput.value;
+			
+			// Display user message
+			const userbubble = document.createElement('div');
+			userBubble.className = 'chat-bubble user-bubble';
+			userBubble.textContent = message;
+			document.getElementById('sendFortuneRequest').appendChild(userbubble);
+
+			// cleat input field
+			messageInput.value = '';
+
+			// send message to the server and get the fortune response
+
+			try {
+			  const response = await fetch("http://localhost:3000/fortuneTell", {
+				method: "POST",
+				headers: {
+				  "Content-Type": "application/json",
+				},
+				body: JSON.stringify({ name: "우치하 사스케" }),
+			  });
+	
+			  if (!response.ok) {
+				throw new Error('Request failed with status' + response.st);
+			  }
+	
+			  const data = await response.json();
+			  console.log('Response:', data.assistant);
+
+			  // Display bot response (fortune) in a chat bubble
+			  const botBubble = document.createElement('div');
+			  botBubble.className = 'chat-bubble bot-bubble';
+			  botBubble.textContent = data;
+			  document.getElementById('sendFortuneRequest').appendChild(botBubble);
+			  
+
+			} catch (error) {
+			  console.error("히잉 우니가 아파요.(;ㅂ;) :", error);
+			  throw error; // 오류를 호출자에게 다시 던집니다.
+			}
+		  }
+
+		</script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>운세보는 우니 ♥</title>
+  </head>
+  <body>
+    <button
+      onclick="sendFortuneRequest().then((data) => console.log(data)).catch((e) => console.log(e));"
+    >
+      요청하기!
+    </button>
+    <script>
+      // JS가 들어갈 자리
+      // ChatGPT_ 자바스크립트 fetch를 이용해서 localhost:3000/fortuneTell 이 주소로 post요청을 보내고 json 응답을 await으로 받아오는 함수를 구현해줘
+      async function sendFortuneRequest() {
+        try {
+          const response = await fetch("http://localhost:3000/fortuneTell", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name: "우치하 사스케" }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error("Error fetching fortune:", error);
+          throw error; // 오류를 호출자에게 다시 던집니다.
+        }
+      }
+    </script>
+  </body>
+</html>

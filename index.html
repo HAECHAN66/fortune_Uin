@@ -1,20 +1,86 @@
-```html
 <!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="stely.css" rel="styleseet" />
     <title>운세보는 우니 ♥</title>
+    <style>
+      /* 채팅 UI 스타일 */
+      body {
+        font-family: "dalmoori";
+        src: url(/frontend/dalmoori.ttf);
+        margin: 0;
+        padding: 0;
+      }
+
+      .chat-container {
+        max-width: 400px;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .chat-header {
+        background-color: #f0f0f0;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .chat-body {
+        padding: 10px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .chat-message {
+        margin-bottom: 10px;
+      }
+
+      .chat-input {
+        width: calc(100% - 70px);
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 5px;
+      }
+
+      .send-button {
+        width: 60px;
+        padding: 5px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .send-button:hover {
+        background-color: #0056b3;
+      }
+    </style>
   </head>
   <body>
-    <button
-      onclick="sendFortuneRequest().then((data) => console.log(data)).catch((e) => console.log(e));"
-    >
-      요청하기!
-    </button>
+    <div class="chat-container">
+      <div class="chat-header">
+        <h2>운세보는 우니</h2>
+      </div>
+      <div class="chat-body" id="chat-body">
+        <!-- 메시지가 표시될 영역 -->
+      </div>
+      <div class="chat-input-container">
+        <input
+          type="text"
+          class="chat-input"
+          id="message-input"
+          placeholder="메시지를 입력하세요"
+        />
+        <button class="send-button" onclick="sendMessage()">전송</button>
+      </div>
+    </div>
+
     <script>
-      // JS가 들어갈 자리
-      // ChatGPT_ 자바스크립트 fetch를 이용해서 localhost:3000/fortuneTell 이 주소로 post요청을 보내고 json 응답을 await으로 받아오는 함수를 구현해줘
       async function sendFortuneRequest() {
         try {
           const response = await fetch("http://localhost:3000/fortuneTell", {
@@ -33,20 +99,36 @@
           return data;
         } catch (error) {
           console.error("Error fetching fortune:", error);
-          throw error; // 오류를 호출자에게 다시 던집니다.
+          throw error;
         }
       }
 
-      // sendFortuneRequest 함수 호출
-      // sendFortuneRequest()
-      //   .then((data) => {
-      //     console.log("Fortune:", data);
-      //     // 여기에서 반환된 데이터를 사용할 수 있습니다.
-      //   })
-      //   .catch((error) => {
-      //     // 오류가 발생한 경우 여기에서 처리할 수 있습니다.
-      //     console.log("Error:", error);
-      //   });
+      async function sendMessage() {
+        const messageInput = document.getElementById("message-input");
+        const message = messageInput.value.trim();
+        if (message !== "") {
+          displayMessage("나", message);
+          messageInput.value = "";
+
+          // 운세 요청 보내기
+          try {
+            const fortuneData = await sendFortuneRequest();
+            displayMessage("우니", fortuneData.fortune);
+          } catch (error) {
+            console.error("운세 요청 에러:", error);
+          }
+        }
+      }
+
+      function displayMessage(sender, message) {
+        const chatBody = document.getElementById("chat-body");
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("chat-message");
+        messageElement.textContent = `${sender}: ${message}`;
+        chatBody.appendChild(messageElement);
+        // 스크롤을 아래로 이동
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
     </script>
   </body>
 </html>
