@@ -1,0 +1,84 @@
+/* 채팅 UI 스타일 */
+
+@font-face {
+  font-family: "stardust";
+  src: url("/frontend/stardust.ttf");
+}
+
+body {
+  font-family: "stardust";
+  margin: 60px auto;
+  padding: 0;
+  background-image: url("/img/background1.jpg");
+}
+
+.chat-container {
+  position: relative;
+  max-width: 400px;
+  height: 600px;
+  margin: 0px auto;
+  border: 1px solid #ffd738;
+  border-radius: 10px;
+  background-image: url(/img/background.jpg);
+}
+
+.chat-header {
+  position: sticky;
+  top: 0px;
+  background-color: #ffeeb2;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.chat-body {
+  max-height: 450px;
+  padding: 10px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.chat-message {
+  margin-top: 15px;
+}
+
+.chat-input {
+  position: absolute;
+  bottom: 10px;
+  font-family: "stardust";
+  width: calc(100% - 100px);
+  max-height: 100px;
+  padding: 5px;
+  border: 1px solid #ffd738;
+  border-radius: 5px;
+  margin: 10px;
+  margin-bottom: 0%;
+  display: inline-block;
+}
+
+.send-button {
+  position: absolute;
+  bottom: 10px;
+  left: calc(85%);
+  font-family: "dalmoor";
+  width: 50px;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffd738;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.send-button:hover {
+  font-family: "dalmoor";
+  background-color: #ffd738;
+}
+
+.intro-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

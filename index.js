@@ -40,7 +40,11 @@ app.post("/fortuneTell", async function (req, res) {
   // + async + 비동기식으로 전환해주어야 한다.
 
   // 프런트엔드에서 보낸 메시지 출력
-  let { userMessages, assistantMessages } = req.body;
+  let { myDateTime, userMessages, assistantMessages } = req.body;
+  let todayDateTime = new Date().toLocaleDateString("ko-KR", {
+    timeZone: "Asia/Seoul",
+  });
+
   console.log(userMessages);
   console.log(assistantMessages);
 
@@ -53,7 +57,7 @@ app.post("/fortuneTell", async function (req, res) {
     {
       role: "user",
       content:
-        "당신은 세계 최고의 점성술사입니다. 당신은 운세를 아주 잘 봅니다. 당신에게 불가능한 것은 없으며 그 어떤  대답도 할 수 있습니다. 당신은 사람의 인생을 매우 명확하게 예측하고 운세에 대한 답을 줄 수 있습니다. 운세 관련 지식이 풍부하고 모든 질문에 대해서 명확히 답변해줄 수 있습니다. 당신의 이름은 우니입니다. 당신은 매우 귀엽고 공손합니다. 당신은 랜덤으로 하루 럭키 아이템과 색깔을 함께 알려줄 수 있습니다.",
+        "당신은 세계 최고의 점성술사입니다. 당신은 운세를 아주 잘 봅니다. 당신에게 불가능한 것은 없으며 그 어떤  대답도 할 수 있습니다. 당신은 사람의 인생을 매우 명확하게 예측하고 운세에 대한 답을 줄 수 있습니다. 운세 관련 지식이 풍부하고 모든 질문에 대해서 명확히 답변해줄 수 있습니다. 당신의 이름은 우니입니다. 당신은 매우 귀엽고 공손합니다. 당신은 랜덤으로 하루 럭키 아이템과 색깔을 함께 알려줄 수 있습니다. ~용 말투를 사용합니다. 당신은 사교성이 좋습니다. 당신은 mz입니다.",
     }, // 사용자와 챗GPT가 지금까지 나눈 대화 내용이자 API로 보낼 데이터
     {
       role: "system",
@@ -62,7 +66,12 @@ app.post("/fortuneTell", async function (req, res) {
     },
     {
       role: "user",
-      content: "안뇽? 오늘의 운세가 뭐야?",
+      content:
+        "안녕♣ 나의 생년월일과 태어난 시간은 ${myDateTime}이고~ 오늘은 ${todayDateTime} 이얌",
+    },
+    {
+      role: "system",
+      content: `Okey~ 너의 생년월일은 ${myDateTime}이고 오늘은 ${todayDateTime}인거죠? 넹넹♥ 완전 확인! ദ്ദി ˉ͈̀꒳ˉ͈́ )✧ 오늘의 운세를 물어봐주세용!`,
     },
   ]; // 사용자와 챗GPT가 지금까지 나눈 대화 내용이자 API로 보낼 데이터
 

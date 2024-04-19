@@ -1,11 +1,25 @@
 // 변수 생성
 let userMessages = [];
 let assistantMessages = [];
+let myDateTime = "";
+
+function start() {
+  const date = document.getElementById("date").value;
+  const hour = document.getElementById("hour").value;
+  if (date === "") {
+    alert("생년월일을 입력해주라긔!ᕙ( ︡’︡益’︠)ง");
+    return;
+  }
+  myDateTime = date + hour;
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("chat").style.display = "block";
+}
 
 async function sendMessage() {
   // 사용자의 메시지를 가져오기
   const messageInput = document.getElementById("message-input");
   const message = messageInput.value.trim();
+
   if (message !== "") {
     displayMessage("익명이", message);
 
@@ -25,6 +39,7 @@ async function sendMessage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            myDateTime: myDateTime,
             userMessages: userMessages,
             assistantMessages: assistantMessages,
           }),
